@@ -12,7 +12,7 @@ public class Main {
 
         // Red
         board[14][10] = board[14][12] = board[14][14] = board[14][16] = board[15][11] = board[15][13]
-                = board[15][15] = board[16][12] = board[17][14] = board[17][13] = new Marble(2, 2, true);
+                = board[15][15] = board[16][12] = board[16][14] = board[17][13] = new Marble(2, 2, true);
 
         // Initializing Empty (White) Marbles.
         for(int i = 5, l = 9, r = 17; i <= 9; i++, l--, r++)
