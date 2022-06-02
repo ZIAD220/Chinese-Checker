@@ -1,87 +1,119 @@
 import java.util.ArrayList;
 
 public class Main {
-    public static void start_game()
+    public static void startGame()
     {
         Marble[][] board = new Marble[18][26];
         init_board(board);
         ArrayList<Pair> p1_marbles = new ArrayList<>();
         ArrayList<Pair> p2_marbles = new ArrayList<>();
         init_moves(board, p1_marbles, p2_marbles);
-        for(int i = 0; i < p1_marbles.size(); i++)
-            System.out.println(p2_marbles.get(i).x + " " + p2_marbles.get(i).y);
+        State initialState=new State(board,true); //computer turn
+        initialState.player1=p1_marbles;
+        initialState.player2=p2_marbles;
+        ArrayList<State> states=new ArrayList<>();
+        getChildren(initialState,states);
+        System.out.print(states);
+//        for(int i = 0; i < p1_marbles.size(); i++)
+//            System.out.println(p2_marbles.get(i).x + " " + p2_marbles.get(i).y);
     }
 
     public static boolean canMove(Marble [][] board, int x, int y)
     {
-        return x > 0 && y < 26 && y > 0 && x < 18 && board[x][y].owner == 0 && board[x][y].isValid ;
+        return x > 0 && y < 26 && y > 0 && x < 18 && board[x][y].owner == 0 && board[x][y].isValid;
     }
 
-    public static void performStep(State state, ArrayList<Pair> currPlayer, ArrayList<State> children)
+    public static boolean canHop(Marble [][] board, int x, int y)
     {
+        return x > 0 && y < 26 && y > 0 && x < 18 && board[x][y].owner == 0 && board[x][y].isValid;
+    }
 
-        for (Pair pair : currPlayer)
+    public static void performStep(State state, ArrayList<State> children)
+    {
+        ArrayList<Pair> currPlayer=state.player1;
+        ArrayList<Pair> otherPlayer=state.player2;
+        for (int i=0;i<currPlayer.size();i++)
         {
+            Pair pair=currPlayer.get(i);
             int x = pair.x;
             int y = pair.y;
-            if (canMove(state.board, x, y+2))
+            if (canMove(state.board, x, y+2)) // right
             {
                 State newState = state.clone();
                 newState.board[x][y] = state.board[x][y+2];
                 newState.board[x][y+2] = state.board[x][y];
+                ArrayList<Pair> player = (ArrayList<Pair>) currPlayer.clone();
+                player.get(i).y=y+2;
+                newState.player2=player;
+                newState.player1=otherPlayer;
                 newState.turn = !state.turn;
                 children.add(newState);
             }
-            if (canMove(state.board, x-2, y)) {
+            if (canMove(state.board, x, y-2)) { // left
                 State newState = state.clone();
-                newState.board[x][y] = state.board[x-2][y];
-                newState.board[x-2][y] = state.board[x][y];
+                newState.board[x][y] = state.board[x][y-2];
+                newState.board[x][y-2] = state.board[x][y];
+                ArrayList<Pair> player = (ArrayList<Pair>) currPlayer.clone();
+                player.get(i).y=y-2;
+                newState.player2=player;
+                newState.player1=otherPlayer;
                 newState.turn = !state.turn;
                 children.add(newState);
             }
-            if (canMove(state.board, x+1, y+1)) {
+            if (canMove(state.board, x+1, y+1)) { // down right
                 State newState = state.clone();
                 newState.board[x][y] = state.board[x+1][y+1];
                 newState.board[x+1][y+1] = state.board[x][y];
+                ArrayList<Pair> player = (ArrayList<Pair>) currPlayer.clone();
+                player.get(i).y=y+1;
+                player.get(i).x=x+1;
+                newState.player2=player;
+                newState.player1=otherPlayer;
                 newState.turn = !state.turn;
                 children.add(newState);
             }
-            if (canMove(state.board, x+1, y-1)) {
+            if (canMove(state.board, x+1, y-1)) { // down left
                 State newState = state.clone();
                 newState.board[x][y] = state.board[x+1][y-1];
                 newState.board[x+1][y-1] = state.board[x][y];
+                ArrayList<Pair> player = (ArrayList<Pair>) currPlayer.clone();
+                player.get(i).y=y-1;
+                player.get(i).x=x+1;
+                newState.player2=player;
+                newState.player1=otherPlayer;
                 newState.turn = !state.turn;
                 children.add(newState);
             }
-            if (canMove(state.board, x-1, y-1)) {
+            if (canMove(state.board, x-1, y-1)) { // up left
                 State newState = state.clone();
                 newState.board[x][y] = state.board[x-1][y-1];
                 newState.board[x-1][y-1] = state.board[x][y];
+                ArrayList<Pair> player = (ArrayList<Pair>) currPlayer.clone();
+                player.get(i).y=y-1;
+                player.get(i).x=x-1;
+                newState.player2=player;
+                newState.player1=otherPlayer;
                 newState.turn = !state.turn;
                 children.add(newState);
             }
-            if (canMove(state.board, x-1, y+1)) {
+            if (canMove(state.board, x-1, y+1)) { // up right
                 State newState = state.clone();
                 newState.board[x][y] = state.board[x-1][y+1];
                 newState.board[x-1][y+1] = state.board[x][y];
+                ArrayList<Pair> player = (ArrayList<Pair>) currPlayer.clone();
+                player.get(i).y=y+1;
+                player.get(i).x=x-1;
+                newState.player2=player;
+                newState.player1=otherPlayer;
                 newState.turn = !state.turn;
                 children.add(newState);
             }
-
         }
     }
+
     //step and hop
-    public static void move(State state, ArrayList<Pair> p1, ArrayList<Pair> p2, ArrayList<State> children){
-        ArrayList<Pair> currPlayer;
-        if (state.turn) // true = pc turn
-        {
-            currPlayer = p1;
-        }
-        else // false = human turn
-            currPlayer = p2;
-
-
-
+    public static void getChildren(State state, ArrayList<State> children){
+        performStep(state,children);
     }
 
     public static void init_board(Marble[][] board) {
@@ -133,6 +165,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        start_game();
+        startGame();
     }
 }
