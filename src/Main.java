@@ -1,8 +1,50 @@
 import java.util.ArrayList;
 
 public class Main {
+    public static void start_game()
+    {
+        Marble[][] board = new Marble[18][26];
+        init_board(board);
+        ArrayList<Pair> p1_marbles = new ArrayList<>();
+        ArrayList<Pair> p2_marbles = new ArrayList<>();
+        init_moves(board, p1_marbles, p2_marbles);
+        for(int i = 0; i < p1_marbles.size(); i++)
+            System.out.println(p2_marbles.get(i).x + " " + p2_marbles.get(i).y);
+    }
 
-    public static void init_board(Marble board[][]) {
+    public static boolean canMove(Marble [][] board, int x, int y)
+    {
+        return x > 0 && y < 26 && y > 0 && x < 18 && board[x][y].owner == 0 && board[x][y].isValid ;
+    }
+    public static void performStep(State state, ArrayList<Pair> currPlayer, ArrayList<State> children)
+    {
+
+        for (Pair pair : currPlayer)
+        {
+            int x = pair.x;
+            int y = pair.y;
+            if (canMove(state.board, x, y+2))
+            {
+
+            }
+
+        }
+    }
+    //step and hop
+    public static void move(State state, ArrayList<Pair> p1, ArrayList<Pair> p2, ArrayList<State> children){
+        ArrayList<Pair> currPlayer;
+        if (state.turn) // true = pc turn
+        {
+            currPlayer = p1;
+        }
+        else // false = human turn
+            currPlayer = p2;
+
+
+
+    }
+
+    public static void init_board(Marble[][] board) {
         for(int i = 0; i < 18; i++)
             for(int j = 0; j < 26; j++)
                 board[i][j] = new Marble();
@@ -41,7 +83,7 @@ public class Main {
 
     }
 
-    public static void init_moves(Marble board[][], ArrayList<Pair> p1, ArrayList<Pair> p2){
+    public static void init_moves(Marble[][] board, ArrayList<Pair> p1, ArrayList<Pair> p2){
        for(int i = 1; i <= 17; i++)
            for(int j = 1; j <= 25; j++)
                if (board[i][j].owner == 1)
@@ -50,13 +92,7 @@ public class Main {
                    p2.add(new Pair(i, j));
     }
 
-    public static void main(String[] args){
-        Marble board[][] = new Marble[18][26];
-        init_board(board);
-        ArrayList<Pair> p1_marbles = new ArrayList<>();
-        ArrayList<Pair> p2_marbles = new ArrayList<>();
-        init_moves(board, p1_marbles, p2_marbles);
-        for(int i = 0; i < p1_marbles.size(); i++)
-            System.out.println(p2_marbles.get(i).x + " " + p2_marbles.get(i).y);
+    public static void main(String[] args) {
+        start_game();
     }
 }
