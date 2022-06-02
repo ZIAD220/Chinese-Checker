@@ -21,7 +21,11 @@ public class State {
 
     public State clone()
     {
-        return new State(board.clone(), turn);
+        Marble [][] cloneBoard = board.clone();
+        for (int i=0; i<cloneBoard.length; i++) {
+            cloneBoard[i] = cloneBoard[i].clone();
+        }
+        return new State(cloneBoard, turn);
     }
 
     @Override
