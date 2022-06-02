@@ -226,7 +226,7 @@ public class Main {
     //step and hop
     public static void getChildren(State state, ArrayList<State> children){
         performStep(state,children);
-        performHop(state, children);
+        //performHop(state, children);
     }
 
     public static void init_board(Marble[][] board) {
@@ -255,12 +255,12 @@ public class Main {
                 = board[6][6] = board[7][3] = board[7][5] = board[8][4] = new Marble(0, 0, true);
 
         // Purple
-        board[9][4] = board[10][3] = board[10][5] = board[11][2] = board[11][4] = board[11][6]
-                = board[12][1] = board[12][3] = board[12][5] = board[12][7] = new Marble(0, 0, true);
+        board[10][4] = board[11][3] = board[11][5] = board[12][2] = board[12][4] = board[12][6]
+                = board[13][1] = board[13][3] = board[13][5] = board[13][7] = new Marble(0, 0, true);
 
         // Orange
-        board[9][22] = board[10][21] = board[10][23] = board[11][20] = board[11][22] = board[11][24]
-                = board[12][19] = board[12][21] = board[12][23] = board[12][25] = new Marble(0, 0, true);
+        board[10][22] = board[11][21] = board[11][23] = board[12][20] = board[12][22] = board[12][24]
+                = board[13][19] = board[13][21] = board[13][23] = board[13][25] = new Marble(0, 0, true);
 
         // Yellow
         board[5][19] = board[5][21] = board[5][23] = board[5][25] = board[6][20] = board[6][22]
