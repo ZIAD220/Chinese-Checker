@@ -127,18 +127,20 @@ public class Main {
         Pair pair = currPlayer.get(i);
         int x = pair.x;
         int y = pair.y;
-        if(canHop(state.board,x,y,x,y+4)){ // hop right
+        if(canHop(state.board,x,y,x,y+4)) { // hop right
             State newState = state.clone();
-            newState.board[x][y] = state.board[x][y+4];
-            newState.board[x][y+4] = state.board[x][y];
+            newState.board[x][y] = state.board[x][y + 4];
+            newState.board[x][y + 4] = state.board[x][y];
             ArrayList<Pair> player = (ArrayList<Pair>) currPlayer.clone();
-            player.get(i).y=y+4;
+            player.get(i).y = y + 4;
             newState.player1 = player;
-            performSingleHop(newState, i,children);
-            newState.player2=player;
-            newState.player1=otherPlayer;
+            performSingleHop(newState, i, children);
+            newState.player2 = player;
+            newState.player1 = otherPlayer;
             newState.turn = !state.turn;
-            children.add(newState);
+            if (!children.contains(newState)) {
+                children.add(newState);
+            }
         }
         if(canHop(state.board,x,y,x,y-4)){ // hop left
             State newState = state.clone();
@@ -151,7 +153,9 @@ public class Main {
             newState.player2=player;
             newState.player1=otherPlayer;
             newState.turn = !state.turn;
-            children.add(newState);
+            if (!children.contains(newState)) {
+                children.add(newState);
+            }
         }
         if(canHop(state.board,x,y,x+2,y+2)){ // hop down right
             State newState = state.clone();
@@ -165,7 +169,9 @@ public class Main {
             newState.player2=player;
             newState.player1=otherPlayer;
             newState.turn = !state.turn;
-            children.add(newState);
+            if (!children.contains(newState)) {
+                children.add(newState);
+            }
         }
         if(canHop(state.board,x,y,x+2,y-2)){ // hop down left
             State newState = state.clone();
@@ -179,7 +185,9 @@ public class Main {
             newState.player2=player;
             newState.player1=otherPlayer;
             newState.turn = !state.turn;
-            children.add(newState);
+            if (!children.contains(newState)) {
+                children.add(newState);
+            }
         }
         if(canHop(state.board,x,y,x-2,y-2)){ // hop up left
             State newState = state.clone();
@@ -193,7 +201,9 @@ public class Main {
             newState.player2=player;
             newState.player1=otherPlayer;
             newState.turn = !state.turn;
-            children.add(newState);
+            if (!children.contains(newState)) {
+                children.add(newState);
+            }
         }
         if(canHop(state.board,x,y,x-2,y+2)){ // hop up right
             State newState = state.clone();
@@ -207,13 +217,16 @@ public class Main {
             newState.player2=player;
             newState.player1=otherPlayer;
             newState.turn = !state.turn;
-            children.add(newState);
+            if (!children.contains(newState)) {
+                children.add(newState);
+            }
         }
     }
 
     //step and hop
     public static void getChildren(State state, ArrayList<State> children){
         performStep(state,children);
+        performHop(state, children);
     }
 
     public static void init_board(Marble[][] board) {

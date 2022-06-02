@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class State {
     public Marble [][] board;
@@ -49,5 +51,13 @@ public class State {
             result+="\n";
         }
         return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        State state = (State) o;
+        return turn == state.turn && heuristic == state.heuristic && Arrays.equals(board, state.board) && Objects.equals(player1, state.player1) && Objects.equals(player2, state.player2);
     }
 }
