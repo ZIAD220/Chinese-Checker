@@ -11,8 +11,8 @@ public class Main {
                 = board[4][10] = board[4][12] = board[4][14] = board[4][16] = new Marble(1, 1, true);
 
         // Red
-        board[13][10] = board[13][12] = board[13][14] = board[13][16] = board[14][11] = board[14][13]
-                = board[14][15] = board[15][12] = board[15][14] = board[16][13] = new Marble(2, 2, true);
+        board[14][10] = board[14][12] = board[14][14] = board[14][16] = board[15][11] = board[15][13]
+                = board[15][15] = board[16][12] = board[17][14] = board[17][13] = new Marble(2, 2, true);
 
         // Initializing Empty (White) Marbles.
         for(int i = 5, l = 9, r = 17; i <= 9; i++, l--, r++)
