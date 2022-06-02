@@ -29,36 +29,42 @@ public class Main {
                 State newState = state.clone();
                 newState.board[x][y] = state.board[x][y+2];
                 newState.board[x][y+2] = state.board[x][y];
+                newState.turn = !state.turn;
                 children.add(newState);
             }
             if (canMove(state.board, x-2, y)) {
                 State newState = state.clone();
                 newState.board[x][y] = state.board[x-2][y];
                 newState.board[x-2][y] = state.board[x][y];
+                newState.turn = !state.turn;
                 children.add(newState);
             }
             if (canMove(state.board, x+1, y+1)) {
                 State newState = state.clone();
                 newState.board[x][y] = state.board[x+1][y+1];
                 newState.board[x+1][y+1] = state.board[x][y];
+                newState.turn = !state.turn;
                 children.add(newState);
             }
             if (canMove(state.board, x+1, y-1)) {
                 State newState = state.clone();
                 newState.board[x][y] = state.board[x+1][y-1];
                 newState.board[x+1][y-1] = state.board[x][y];
+                newState.turn = !state.turn;
                 children.add(newState);
             }
             if (canMove(state.board, x-1, y-1)) {
                 State newState = state.clone();
                 newState.board[x][y] = state.board[x-1][y-1];
                 newState.board[x-1][y-1] = state.board[x][y];
+                newState.turn = !state.turn;
                 children.add(newState);
             }
             if (canMove(state.board, x-1, y+1)) {
                 State newState = state.clone();
                 newState.board[x][y] = state.board[x-1][y+1];
                 newState.board[x-1][y+1] = state.board[x][y];
+                newState.turn = !state.turn;
                 children.add(newState);
             }
 
