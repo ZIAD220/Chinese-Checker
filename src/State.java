@@ -9,6 +9,13 @@ public class State {
     public ArrayList<Pair> player1;
     public ArrayList<Pair> player2;
 
+    public State(Marble[][] board, boolean turn, ArrayList<Pair> player1, ArrayList<Pair> player2) {
+        this.board = board;
+        this.turn = turn;
+        this.heuristic = 0;
+        this.player1 = player1;
+        this.player2 = player2;
+    }
     public State(Marble[][] board, boolean turn) {
         this.board = board;
         this.turn = turn;
@@ -27,7 +34,7 @@ public class State {
         for (int i=0; i<cloneBoard.length; i++) {
             cloneBoard[i] = cloneBoard[i].clone();
         }
-        return new State(cloneBoard, turn);
+        return new State(cloneBoard, turn, (ArrayList<Pair>) player1.clone(), (ArrayList<Pair>) player2.clone());
     }
 
     @Override
@@ -58,6 +65,14 @@ public class State {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         State state = (State) o;
-        return turn == state.turn && heuristic == state.heuristic && Arrays.equals(board, state.board) && Objects.equals(player1, state.player1) && Objects.equals(player2, state.player2);
+        for (int i=0; i<board.length; i++) {
+            Marble[] marbles = board[i];
+            for (int j=0; j<marbles.length; j++) {
+                if (!marbles[j].equals(state.board[i][j])) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
