@@ -16,6 +16,7 @@ public class Main {
     {
         return x > 0 && y < 26 && y > 0 && x < 18 && board[x][y].owner == 0 && board[x][y].isValid ;
     }
+
     public static void performStep(State state, ArrayList<Pair> currPlayer, ArrayList<State> children)
     {
 
@@ -25,7 +26,40 @@ public class Main {
             int y = pair.y;
             if (canMove(state.board, x, y+2))
             {
-
+                State newState = state.clone();
+                newState.board[x][y] = state.board[x][y+2];
+                newState.board[x][y+2] = state.board[x][y];
+                children.add(newState);
+            }
+            if (canMove(state.board, x-2, y)) {
+                State newState = state.clone();
+                newState.board[x][y] = state.board[x-2][y];
+                newState.board[x-2][y] = state.board[x][y];
+                children.add(newState);
+            }
+            if (canMove(state.board, x+1, y+1)) {
+                State newState = state.clone();
+                newState.board[x][y] = state.board[x+1][y+1];
+                newState.board[x+1][y+1] = state.board[x][y];
+                children.add(newState);
+            }
+            if (canMove(state.board, x+1, y-1)) {
+                State newState = state.clone();
+                newState.board[x][y] = state.board[x+1][y-1];
+                newState.board[x+1][y-1] = state.board[x][y];
+                children.add(newState);
+            }
+            if (canMove(state.board, x-1, y-1)) {
+                State newState = state.clone();
+                newState.board[x][y] = state.board[x-1][y-1];
+                newState.board[x-1][y-1] = state.board[x][y];
+                children.add(newState);
+            }
+            if (canMove(state.board, x-1, y+1)) {
+                State newState = state.clone();
+                newState.board[x][y] = state.board[x-1][y+1];
+                newState.board[x-1][y+1] = state.board[x][y];
+                children.add(newState);
             }
 
         }
