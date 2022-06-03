@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class Main {
     public static void startGame()
@@ -235,6 +235,48 @@ public class Main {
     public static void getChildren(State state, ArrayList<State> children){
         performStep(state,children);
         performHop(state,state, children);
+    }
+
+
+    public static boolean valid_move(Marble[][] board, ArrayList<Pair> player, Pair from, Pair to){
+        if (!player.contains(from))
+            return false;
+
+        // Checking steps.
+        int dx[] = new int[] {-1, 0, 1, +1, +0, -1};
+        int dy[] = new int[] {+1, 2, 1, -1, -2, -1};
+        for(int i = 0; i < 6; i++){
+            int nx = from.x + dx[i];
+            int ny = from.y + dy[i];
+            if (canMove(board, nx, ny) && nx == to.x && ny == to.y)
+                return true;
+        }
+
+        // Checking hops (using bfs).
+        dx = new int[]{0, +0, 2, +2, -2, -2};
+        dy = new int[]{4, -4, 2, -2, -2, +2};
+        Set<Pair> vis = new HashSet<>(); // Visited array.
+        vis.add(from);
+        Queue<Pair> q = new LinkedList<>();
+        q.add(from);
+        while(!q.isEmpty()){
+            int sz = q.size();
+            while(sz > 0){
+                Pair cur = q.poll();
+                for(int i = 0; i < 6; i++){
+                    int nx = cur.x + dx[i];
+                    int ny = cur.y + dy[i];
+                    if (canHop(board, cur.x, cur.y, nx, ny) && !vis.contains(new Pair(nx, ny))){
+                        if (to.x == nx && to.y == ny)
+                            return true;
+                        vis.add(new Pair(nx, ny));
+                        q.add(new Pair(nx, ny));
+                    }
+                }
+                sz--;
+            }
+        }
+        return false;
     }
 
     public static void init_board(Marble[][] board) {
