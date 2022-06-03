@@ -19,8 +19,9 @@ public class Main {
         ArrayList<State> states=new ArrayList<>();
 //        for(int i = 0; i < p1_marbles.size(); i++)
 //            System.out.println(p1_marbles.get(i).x + " " + p1_marbles.get(i).y);
-        initialState.heuristic=alphaBeta(initialState,difficultyLevel, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        System.out.print(initialState);
+        State best = new State(initialState.board, initialState.turn);
+        initialState.heuristic=alphaBeta(initialState,true, difficultyLevel, Integer.MIN_VALUE, Integer.MAX_VALUE, best);
+        System.out.print(best);
     }
 
     public static byte getWinner(State state) {
@@ -37,7 +38,7 @@ public class Main {
         return 0;
     }
 
-    public static int alphaBeta(State state, int depth, int alpha, int beta) {
+    public static int alphaBeta(State state, boolean atRoot, int depth, int alpha, int beta, State best) {
         if (depth == 0 || getWinner(state) != 0) {
             state.heuristic=evalState(state);
             return evalState(state);
@@ -48,8 +49,13 @@ public class Main {
         if(state.turn) {
             int maxEval = Integer.MIN_VALUE;
             for(State child : children) {
-                int eval = alphaBeta(child, depth - 1, alpha, beta);
-                maxEval = Integer.max(maxEval, eval);
+                int eval = alphaBeta(child, false, depth - 1, alpha, beta, best);
+                if (eval > maxEval){
+                    maxEval = eval;
+                    if (atRoot)
+                        best = child;
+
+                }
                 alpha = Integer.max(alpha, eval);
                 if (beta <= alpha) {
                     break;
@@ -60,7 +66,7 @@ public class Main {
         } else {
         int minEval = Integer.MAX_VALUE;
         for(State child : children){
-            int eval = alphaBeta(child, depth - 1, alpha, beta);
+            int eval = alphaBeta(child, false, depth - 1, alpha, beta, best);
             minEval = Integer.min(minEval, eval);
             beta = Integer.min(beta, eval);
             if(beta <= alpha) {
