@@ -34,7 +34,7 @@ public class State {
         for (int i=0; i<cloneBoard.length; i++) {
             cloneBoard[i] = cloneBoard[i].clone();
         }
-        return new State(cloneBoard, turn, (ArrayList<Pair>) player1.clone(), (ArrayList<Pair>) player2.clone());
+        return new State(cloneBoard, turn, Utils.deepCopyPairs(player1), Utils.deepCopyPairs(player2));
     }
 
     @Override

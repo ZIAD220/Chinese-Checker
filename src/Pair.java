@@ -21,4 +21,12 @@ public class Pair {
     protected Object clone() {
         return new Pair(x, y);
     }
+
+    @Override
+    public String toString() {
+        return "Pair{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }
