@@ -52,8 +52,12 @@ public class Main {
                 int eval = alphaBeta(child, false, depth - 1, alpha, beta, best);
                 if (eval > maxEval){
                     maxEval = eval;
-                    if (atRoot)
-                        best = child;
+                    if (atRoot){
+                        //best = child.clone();
+                        best.board = child.board.clone();
+                        child.board[1][13].owner = 2;
+                        best.heuristic = eval;
+                    }
 
                 }
                 alpha = Integer.max(alpha, eval);

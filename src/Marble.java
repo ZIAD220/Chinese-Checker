@@ -28,4 +28,9 @@ public class Marble {
         Marble marble = (Marble) o;
         return owner == marble.owner && color == marble.color && isValid == marble.isValid;
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return new Marble(owner, color, isValid);
+    }
 }
