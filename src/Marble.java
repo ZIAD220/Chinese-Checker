@@ -30,7 +30,7 @@ public class Marble {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
+    public Object clone() {
         return new Marble(owner, color, isValid);
     }
 }

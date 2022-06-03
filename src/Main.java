@@ -5,7 +5,7 @@ import java.util.*;
 public class Main {
     public static final int[] bottomCenter = {15, 13};
     public static final int[] topCenter = {3, 13};
-    public static int difficultyLevel = 1;
+    public static int difficultyLevel = 3;
     public static void startGame()
     {
         Marble[][] board = new Marble[18][26];
@@ -55,7 +55,6 @@ public class Main {
                     if (atRoot){
                         //best = child.clone();
                         best.board = child.board.clone();
-                        child.board[1][13].owner = 2;
                         best.heuristic = eval;
                     }
 
