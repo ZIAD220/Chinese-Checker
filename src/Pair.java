@@ -16,4 +16,9 @@ public class Pair {
         Pair pair = (Pair) o;
         return x == pair.x && y == pair.y;
     }
+
+    @Override
+    protected Object clone() {
+        return new Pair(x, y);
+    }
 }
