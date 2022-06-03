@@ -50,7 +50,6 @@ public class Main {
     }
 
     public static void play() {
-        System.out.println("El PC");
         //for(int i = 0; i < state.player1.size(); i++)
           //  System.out.println(state.player1.get(i));
         if (state.turn) {
@@ -317,14 +316,37 @@ public class Main {
                    p2.add(new Pair(i, j));
     }
 
+    public static int getDifficulty(){
+        System.out.println("Choose difficulty level: ");
+        System.out.println("1- Easy\n2- Medium\n3- Hard");
+        int difficulty = in.nextInt();
+        if(difficulty==1)
+            difficultyLevel=1;
+        else if(difficulty==2)
+            difficultyLevel=3;
+        else if(difficulty==3)
+            difficultyLevel=5;
+        else {
+            System.out.println("Enter proper value (1 - 2 - 3).");
+            getDifficulty();
+        }
+        return difficultyLevel;
+    }
+
     public static void main(String[] args) {
+        getDifficulty();
         System.out.println("Red is your color (r)");
-        System.out.println("Choose dificulty level: ");
         startGame();
         while (getWinner(state) == 0) {
             System.out.println(state);
             System.out.println();
             play();
         }
+        System.out.println(state);
+        System.out.println();
+        if(getWinner(state)==1)
+            System.out.println("Computer wins!!");
+        else if(getWinner(state)==2)
+            System.out.println("You win!!");
     }
 }
