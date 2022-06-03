@@ -1,6 +1,11 @@
+import jdk.jshell.execution.Util;
+
 import java.util.*;
 
 public class Main {
+    public static final int[] bottomCenter = {15, 13};
+    public static final int[] topCenter = {3, 13};
+    public static int dificultyLevel = 3;
     public static void startGame()
     {
         Marble[][] board = new Marble[18][26];
@@ -15,8 +20,70 @@ public class Main {
 //        for(int i = 0; i < p1_marbles.size(); i++)
 //            System.out.println(p1_marbles.get(i).x + " " + p1_marbles.get(i).y);
         getChildren(initialState,states);
-        System.out.print(states);
+//        System.out.print(states);
+    }
 
+    public static byte getWinner(State state) {
+        Marble[][] board = state.board;
+        if (board[14][10].owner == 1 && board[14][12].owner == 1 && board[14][14].owner == 1 && board[14][16].owner == 1 &&
+                board[15][11].owner == 1 && board[15][13].owner == 1 && board[15][15].owner == 1 &&
+                board[16][12].owner == 1 && board[16][14].owner == 1 && board[17][13].owner == 1) {
+            return 1;
+        }
+        if (board[1][13].owner == 2 &&  board[2][12].owner == 2 && board[2][14].owner == 2 && board[3][11].owner == 2 && board[3][13].owner == 2 &&
+                board[3][15].owner == 2 && board[4][10].owner == 2 && board[4][12].owner ==2 && board[4][14].owner == 2 && board[4][16].owner == 2){
+            return 2;
+        }
+        return 0;
+    }
+
+    public static int minimax(State state, int depth, int alpha, int beta) {
+        if (depth == 0 || getWinner(state) != 0) {
+            return evalState(state);
+        }
+        ArrayList<State> children = new ArrayList<>();
+        getChildren(state, children);
+
+        if(state.turn) {
+            int maxEval = Integer.MIN_VALUE;
+            for(State child : children) {
+                int eval = minimax(child, depth - 1, alpha, beta);
+                maxEval = Integer.max(maxEval, eval);
+                alpha = Integer.max(alpha, eval);
+                if (beta <= alpha) {
+                    break;
+                }
+            }
+            return maxEval;
+        } else {
+        int minEval = Integer.MAX_VALUE;
+        for(State child : children){
+            int eval = minimax(child, depth - 1, alpha, beta);
+            minEval = Integer.min(minEval, eval);
+            beta = Integer.min(beta, eval);
+            if(beta <= alpha) {
+                break;
+            }
+        }
+        return minEval;
+        }
+    }
+
+    public static int evalState(State state) {
+        if (getWinner(state) == 1) {
+            return Integer.MAX_VALUE;
+        }
+        if (getWinner((state)) == 2) {
+            return Integer.MIN_VALUE;
+        }
+        ArrayList<Pair> computerMarbles = state.turn ? state.player1 : state.player2;
+        ArrayList<Pair> humanMarbles = !state.turn ? state.player1 : state.player2;
+        double computerDistance = 0, humanDistance = 0;
+        for (int i=0; i<computerMarbles.size(); i++) {
+            computerDistance += Utils.getEucDistance(computerMarbles.get(i).x, computerMarbles.get(i).y, bottomCenter[0], bottomCenter[1]);
+            humanDistance += Utils.getEucDistance(humanMarbles.get(i).x, humanMarbles.get(i).y, topCenter[0], topCenter[1]);
+        }
+        return (int)Math.round(humanDistance - computerDistance);
     }
 
     public static boolean canMove(Marble [][] board, int x, int y)

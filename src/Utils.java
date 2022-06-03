@@ -8,4 +8,8 @@ public class Utils {
         }
         return result;
     }
+
+    public static double getEucDistance(int xs, int ys, int xd, int yd) {
+        return Math.sqrt(Math.pow(xd - xs, 2) + Math.pow(yd-ys, 2));
+    }
 }
