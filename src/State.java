@@ -39,7 +39,10 @@ public class State {
 
     @Override
     public String toString() {
-        String result="";
+        String result=" ";
+        for (int j=1;  j<board[0].length; j+=2) {
+            result += j + " ";
+        }
         for (int i=0;i< board.length;i++){
             for (int j=0;j<board[0].length;j++){
                 if(!board[i][j].isValid){
@@ -55,9 +58,10 @@ public class State {
                     result+="r";
                 }
             }
-            result+="\n";
+            result+="\n"+(i+1);
         }
-        result+="Heuristic = "+heuristic+"\n";
+        result += " ";
+        result+="\nHeuristic = "+heuristic+"\n";
         return result;
     }
 
