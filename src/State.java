@@ -61,7 +61,6 @@ public class State {
             result+="\n"+(i+1);
         }
         result += " ";
-        result+="\nHeuristic = "+heuristic+"\n";
         return result;
     }
 

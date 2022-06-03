@@ -6,6 +6,8 @@ public class Main {
     public static final int[] bottomCenter = {15, 13};
     public static final int[] topCenter = {3, 13};
     public static int difficultyLevel = 3;
+    public static State state = null;
+    public static Scanner in = new Scanner(System.in);
     public static void startGame()
     {
         Marble[][] board = new Marble[18][26];
@@ -13,15 +15,39 @@ public class Main {
         ArrayList<Pair> p1_marbles = new ArrayList<>();
         ArrayList<Pair> p2_marbles = new ArrayList<>();
         init_moves(board, p1_marbles, p2_marbles);
-        State initialState=new State(board,true); //computer turn
-        initialState.player1=p1_marbles;
-        initialState.player2=p2_marbles;
-        ArrayList<State> states=new ArrayList<>();
-//        for(int i = 0; i < p1_marbles.size(); i++)
-//            System.out.println(p1_marbles.get(i).x + " " + p1_marbles.get(i).y);
-        State best = new State(initialState.board, initialState.turn);
-        initialState.heuristic=alphaBeta(initialState,true, difficultyLevel, Integer.MIN_VALUE, Integer.MAX_VALUE, best);
-        System.out.print(best);
+        state=new State(board,false); //computer turn
+        state.player1=p1_marbles;
+        state.player2=p2_marbles;
+//        ArrayList<State> states=new ArrayList<>();
+////        for(int i = 0; i < p1_marbles.size(); i++)
+////            System.out.println(p1_marbles.get(i).x + " " + p1_marbles.get(i).y);
+//        State best = new State(initialState.board, initialState.turn);
+//        initialState.heuristic=alphaBeta(initialState,true, difficultyLevel, Integer.MIN_VALUE, Integer.MAX_VALUE, best);
+//        System.out.print(best);
+    }
+
+    public static void humanPlay() {
+        System.out.print("Enter source cell location: ");
+        int xs, ys, xd, yd;
+        xs = in.nextInt();
+        ys = in.nextInt();
+        System.out.print("Enter destination cell location: ");
+        xd = in.nextInt();
+        yd = in.nextInt();
+        Marble temp = state.board[xs][ys];
+        state.board[xs][ys] = state.board[xd][yd];
+        state.board[xd][yd] = temp;
+        state.turn = !state.turn;
+    }
+
+    public static void play() {
+        if (state.turn) {
+            State best = new State(state.board, state.turn);
+            state.heuristic=alphaBeta(state,true, difficultyLevel, Integer.MIN_VALUE, Integer.MAX_VALUE, best);
+        }
+        else {
+            humanPlay();
+        }
     }
 
     public static byte getWinner(State state) {
@@ -280,6 +306,13 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        System.out.println("Red is your color (r)");
+        System.out.println("Choose dificulty level: ");
         startGame();
+        while (getWinner(state) == 0) {
+            System.out.println(state);
+            System.out.println();
+            play();
+        }
     }
 }
