@@ -108,76 +108,23 @@ public class Main {
             Pair pair=currPlayer.get(i);
             int x = pair.x;
             int y = pair.y;
-            if (canMove(state.board, x, y+2)) // right
-            {
-                State newState = state.clone();
-                newState.board[x][y] = state.board[x][y+2];
-                newState.board[x][y+2] = state.board[x][y];
-                ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
-                player.get(i).y=y+2;
-                newState.player2=player;
-                newState.player1=Utils.deepCopyPairs(otherPlayer);
-                newState.turn = !state.turn;
-                children.add(newState);
-            }
-            if (canMove(state.board, x, y-2)) { // left
-                State newState = state.clone();
-                newState.board[x][y] = state.board[x][y-2];
-                newState.board[x][y-2] = state.board[x][y];
-                ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
-                player.get(i).y=y-2;
-                newState.player2=player;
-                newState.player1=Utils.deepCopyPairs(otherPlayer);
-                newState.turn = !state.turn;
-                children.add(newState);
-            }
-            if (canMove(state.board, x+1, y+1)) { // down right
-                State newState = state.clone();
-                newState.board[x][y] = state.board[x+1][y+1];
-                newState.board[x+1][y+1] = state.board[x][y];
-                ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
-                player.get(i).y=y+1;
-                player.get(i).x=x+1;
-                newState.player2=player;
-                newState.player1=Utils.deepCopyPairs(otherPlayer);
-                newState.turn = !state.turn;
-                children.add(newState);
-            }
-            if (canMove(state.board, x+1, y-1)) { // down left
-                State newState = state.clone();
-                newState.board[x][y] = state.board[x+1][y-1];
-                newState.board[x+1][y-1] = state.board[x][y];
-                ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
-                player.get(i).y=y-1;
-                player.get(i).x=x+1;
-                newState.player2=player;
-                newState.player1=Utils.deepCopyPairs(otherPlayer);
-                newState.turn = !state.turn;
-                children.add(newState);
-            }
-            if (canMove(state.board, x-1, y-1)) { // up left
-                State newState = state.clone();
-                newState.board[x][y] = state.board[x-1][y-1];
-                newState.board[x-1][y-1] = state.board[x][y];
-                ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
-                player.get(i).y=y-1;
-                player.get(i).x=x-1;
-                newState.player2=player;
-                newState.player1=Utils.deepCopyPairs(otherPlayer);
-                newState.turn = !state.turn;
-                children.add(newState);
-            }
-            if (canMove(state.board, x-1, y+1)) { // up right
-                State newState = state.clone();
-                newState.board[x][y] = state.board[x-1][y+1];
-                newState.board[x-1][y+1] = state.board[x][y];
-                ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
-                player.get(i).y=y+1;
-                player.get(i).x=x-1;
-                newState.player2=player;
-                newState.player1=Utils.deepCopyPairs(otherPlayer);
-                newState.turn = !state.turn;
-                children.add(newState);
+            int dx[] = new int[] {-1, 0, 1, +1, +0, -1};
+            int dy[] = new int[] {+1, 2, 1, -1, -2, -1};
+            for(int j = 0; j < 6; j++){
+                int nx = x + dx[j];
+                int ny = y + dy[j];
+                if (canMove(state.board, nx, ny)){
+                    State newState = state.clone();
+                    newState.board[x][y] = state.board[nx][ny];
+                    newState.board[nx][ny] = state.board[x][y];
+                    ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
+                    player.get(i).y=ny;
+                    player.get(i).x=nx;
+                    newState.player2=player;
+                    newState.player1=Utils.deepCopyPairs(otherPlayer);
+                    newState.turn = !state.turn;
+                    children.add(newState);
+                }
             }
 //            System.out.println(state.player1.get(i).x+" "+state.player1.get(i).y);
         }
@@ -196,104 +143,27 @@ public class Main {
         Pair pair = currPlayer.get(i);
         int x = pair.x;
         int y = pair.y;
-        if (canHop(state.board, x, y, x, y + 4)) { // hop right
-            State newState = state.clone();
-            newState.board[x][y] = state.board[x][y + 4];
-            newState.board[x][y + 4] = state.board[x][y];
-            ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
-            player.get(i).y = y + 4;
-            newState.player1 = player;
-            State recState = newState.clone();
-            newState.player2 = player;
-            newState.player1=Utils.deepCopyPairs(otherPlayer);
-            newState.turn = !state.turn;
-            if (!children.contains(newState) && !newState.equals(originalState)) {
-                children.add(newState);
-                performSingleHop(recState, originalState, i, children);
-            }
-        }
-        if (canHop(state.board, x, y, x, y - 4)) { // hop left
-            State newState = state.clone();
-            newState.board[x][y] = state.board[x][y - 4];
-            newState.board[x][y - 4] = state.board[x][y];
-            ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
-            player.get(i).y = y - 4;
-            newState.player1 = player;
-            State recState = newState.clone();
-            newState.player2 = player;
-            newState.player1=Utils.deepCopyPairs(otherPlayer);
-            newState.turn = !state.turn;
-            if (!children.contains(newState) && !newState.equals(originalState)) {
-                children.add(newState);
-                performSingleHop(recState, originalState, i, children);
-            }
-        }
-        if (canHop(state.board, x, y, x + 2, y + 2)) { // hop down right
-            State newState = state.clone();
-            newState.board[x][y] = state.board[x + 2][y + 2];
-            newState.board[x + 2][y + 2] = state.board[x][y];
-            ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
-            player.get(i).x = x + 2;
-            player.get(i).y = y + 2;
-            newState.player1 = player;
-            State recState = newState.clone();
-            newState.player2 = player;
-            newState.player1=Utils.deepCopyPairs(otherPlayer);
-            newState.turn = !state.turn;
-            if (!children.contains(newState) && !newState.equals(originalState)) {
-                children.add(newState);
-                performSingleHop(recState, originalState, i, children);
-            }
-        }
-        if (canHop(state.board, x, y, x + 2, y - 2)) { // hop down left
-            State newState = state.clone();
-            newState.board[x][y] = state.board[x + 2][y - 2];
-            newState.board[x + 2][y - 2] = state.board[x][y];
-            ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
-            player.get(i).x = x + 2;
-            player.get(i).y = y - 2;
-            newState.player1 = player;
-            State recState = newState.clone();
-            newState.player2 = player;
-            newState.player1=Utils.deepCopyPairs(otherPlayer);
-            newState.turn = !state.turn;
-            if (!children.contains(newState) && !newState.equals(originalState)) {
-                children.add(newState);
-                performSingleHop(recState, originalState, i, children);
-            }
-        }
-        if (canHop(state.board, x, y, x - 2, y - 2)) { // hop up left
-            State newState = state.clone();
-            newState.board[x][y] = state.board[x - 2][y - 2];
-            newState.board[x - 2][y - 2] = state.board[x][y];
-            ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
-            player.get(i).x = x - 2;
-            player.get(i).y = y - 2;
-            newState.player1 = player;
-            State recState = newState.clone();
-            newState.player2 = player;
-            newState.player1=Utils.deepCopyPairs(otherPlayer);
-            newState.turn = !state.turn;
-            if (!children.contains(newState) && !newState.equals(originalState)) {
-                children.add(newState);
-                performSingleHop(recState, originalState, i, children);
-            }
-        }
-        if (canHop(state.board, x, y, x - 2, y + 2)) { // hop up right
-            State newState = state.clone();
-            newState.board[x][y] = state.board[x - 2][y + 2];
-            newState.board[x - 2][y + 2] = state.board[x][y];
-            ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
-            player.get(i).x = x - 2;
-            player.get(i).y = y + 2;
-            newState.player1 = player;
-            State recState = newState.clone();
-            newState.player2 = player;
-            newState.player1=Utils.deepCopyPairs(otherPlayer);
-            newState.turn = !state.turn;
-            if (!children.contains(newState) && !newState.equals(originalState)) {
-                children.add(newState);
-                performSingleHop(recState, originalState, i, children);
+        int dx[] = new int[]{0, +0, 2, +2, -2, -2};
+        int dy[] = new int[]{4, -4, 2, -2, -2, +2};
+        for(int j = 0; j < 6; j++){
+            int nx = x + dx[j];
+            int ny = y + dy[j];
+            if (canHop(state.board, x, y, nx, ny)){
+                State newState = state.clone();
+                newState.board[x][y] = state.board[nx][ny];
+                newState.board[nx][ny] = state.board[x][y];
+                ArrayList<Pair> player = Utils.deepCopyPairs(currPlayer);
+                player.get(i).x = nx;
+                player.get(i).y = ny;
+                newState.player1 = player;
+                State recState = newState.clone();
+                newState.player2 = player;
+                newState.player1=Utils.deepCopyPairs(otherPlayer);
+                newState.turn = !state.turn;
+                if (!children.contains(newState) && !newState.equals(originalState)) {
+                    children.add(newState);
+                    performSingleHop(recState, originalState, i, children);
+                }
             }
         }
     }
