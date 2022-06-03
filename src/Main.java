@@ -16,8 +16,8 @@ public class Main {
         ArrayList<Pair> p2_marbles = new ArrayList<>();
         init_moves(board, p1_marbles, p2_marbles);
         state=new State(board,false); //computer turn
-        state.player1=p1_marbles;
-        state.player2=p2_marbles;
+        state.player1=p2_marbles;
+        state.player2=p1_marbles;
 //        ArrayList<State> states=new ArrayList<>();
 ////        for(int i = 0; i < p1_marbles.size(); i++)
 ////            System.out.println(p1_marbles.get(i).x + " " + p1_marbles.get(i).y);
@@ -34,6 +34,11 @@ public class Main {
         System.out.print("Enter destination cell location: ");
         xd = in.nextInt();
         yd = in.nextInt();
+        if (!valid_move(state.board, state.player1, new Pair(xs, ys), new Pair(xd, yd))){
+            System.out.println("Not valid move");
+            humanPlay();
+            return;
+        }
         Marble temp = state.board[xs][ys];
         state.board[xs][ys] = state.board[xd][yd];
         state.board[xd][yd] = temp;
