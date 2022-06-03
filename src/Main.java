@@ -53,8 +53,10 @@ public class Main {
                 if (eval > maxEval){
                     maxEval = eval;
                     if (atRoot){
-                        //best = child.clone();
-                        best.board = child.board.clone();
+                        best.board = child.board;
+                        best.player1 = child.player1;
+                        best.player2 = child.player2;
+                        best.turn = child.turn;
                         best.heuristic = eval;
                     }
 

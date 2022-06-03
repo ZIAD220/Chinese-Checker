@@ -14,10 +14,11 @@ public class Utils {
     }
 
     public static State cloneState(State state) {
-        Marble [][] cloneBoard = state.board.clone();
-        for (int i=0; i<cloneBoard.length; i++) {
-            for (int j=0; j<cloneBoard[0].length; j++) {
-                cloneBoard[i][j] = (Marble) cloneBoard[i][j].clone();
+        int rows = state.board.length, cols = state.board[0].length;
+        Marble [][] cloneBoard = new Marble[rows][cols];
+        for (int i=0; i<rows; i++) {
+            for (int j=0; j<cols; j++) {
+                cloneBoard[i][j] = (Marble) state.board[i][j].clone();
             }
         }
         return new State(cloneBoard, state.turn, Utils.deepCopyPairs(state.player1), Utils.deepCopyPairs(state.player2));
