@@ -5,7 +5,7 @@ import java.util.*;
 public class Main {
     public static final int[] bottomCenter = {15, 13};
     public static final int[] topCenter = {3, 13};
-    public static int dificultyLevel = 3;
+    public static int difficultyLevel = 1;
     public static void startGame()
     {
         Marble[][] board = new Marble[18][26];
@@ -19,7 +19,7 @@ public class Main {
         ArrayList<State> states=new ArrayList<>();
 //        for(int i = 0; i < p1_marbles.size(); i++)
 //            System.out.println(p1_marbles.get(i).x + " " + p1_marbles.get(i).y);
-        initialState.heuristic=alphaBeta(initialState,1, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        initialState.heuristic=alphaBeta(initialState,difficultyLevel, Integer.MIN_VALUE, Integer.MAX_VALUE);
         System.out.print(initialState);
     }
 
@@ -39,6 +39,7 @@ public class Main {
 
     public static int alphaBeta(State state, int depth, int alpha, int beta) {
         if (depth == 0 || getWinner(state) != 0) {
+            state.heuristic=evalState(state);
             return evalState(state);
         }
         ArrayList<State> children = new ArrayList<>();
@@ -54,6 +55,7 @@ public class Main {
                     break;
                 }
             }
+            state.heuristic=maxEval;
             return maxEval;
         } else {
         int minEval = Integer.MAX_VALUE;
@@ -65,6 +67,7 @@ public class Main {
                 break;
             }
         }
+        state.heuristic=minEval;
         return minEval;
         }
     }
