@@ -242,7 +242,7 @@ public class Main {
             for(int j = 0; j < 26; j++)
                 board[i][j] = new Marble();
         // Green
-        board[1][13] = board[2][12] = board[2][14] = board[3][11] = board[5][13] = board[3][15]
+        board[1][13] = board[2][12] = board[2][14] = board[3][11] = board[3][13] = board[3][15]
                 = board[4][10] = board[4][12] = board[4][14] = board[4][16] = new Marble(1, 1, true);
 
         // Red
@@ -250,7 +250,6 @@ public class Main {
                 = board[15][15] = board[16][12] = board[16][14] = board[17][13] = new Marble(2, 2, true);
 
         // Initializing Empty (White) Marbles.
-        board[3][13].setValid(true);
 
         for(int i = 5, l = 9, r = 17; i <= 9; i++, l--, r++)
             for(int j = l; j <= r; j += 2)
