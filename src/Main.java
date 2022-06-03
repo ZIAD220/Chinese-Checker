@@ -12,10 +12,11 @@ public class Main {
         initialState.player1=p1_marbles;
         initialState.player2=p2_marbles;
         ArrayList<State> states=new ArrayList<>();
+//        for(int i = 0; i < p1_marbles.size(); i++)
+//            System.out.println(p1_marbles.get(i).x + " " + p1_marbles.get(i).y);
         getChildren(initialState,states);
         System.out.print(states);
-//        for(int i = 0; i < p1_marbles.size(); i++)
-//            System.out.println(p2_marbles.get(i).x + " " + p2_marbles.get(i).y);
+
     }
 
     public static boolean canMove(Marble [][] board, int x, int y)
@@ -25,8 +26,8 @@ public class Main {
 
     public static boolean canHop(Marble [][] board,int xs,int ys, int x, int y)
     {
-        int midX=xs+((x-xs)/2);
-        int midY=ys+((y-ys)/2);
+        int midX=xs+(xs-x)/2;
+        int midY=ys+(ys-y)/2;
         return x > 0 && y < 26 && y > 0 && x < 18 && board[x][y].owner == 0 &&
                 board[x][y].isValid && board[midX][midY].owner!=0;
     }
@@ -111,6 +112,7 @@ public class Main {
                 newState.turn = !state.turn;
                 children.add(newState);
             }
+//            System.out.println(state.player1.get(i).x+" "+state.player1.get(i).y);
         }
     }
 
@@ -231,8 +233,8 @@ public class Main {
 
     //step and hop
     public static void getChildren(State state, ArrayList<State> children){
-        performStep(state,children);
         performHop(state,state, children);
+        performStep(state,children);
     }
 
     public static void init_board(Marble[][] board) {
@@ -240,7 +242,7 @@ public class Main {
             for(int j = 0; j < 26; j++)
                 board[i][j] = new Marble();
         // Green
-        board[1][13] = board[2][12] = board[2][14] = board[3][11] = board[3][13] = board[3][15]
+        board[1][13] = board[2][12] = board[2][14] = board[3][11] = board[5][13] = board[3][15]
                 = board[4][10] = board[4][12] = board[4][14] = board[4][16] = new Marble(1, 1, true);
 
         // Red
@@ -248,6 +250,8 @@ public class Main {
                 = board[15][15] = board[16][12] = board[16][14] = board[17][13] = new Marble(2, 2, true);
 
         // Initializing Empty (White) Marbles.
+        board[3][13].setValid(true);
+
         for(int i = 5, l = 9, r = 17; i <= 9; i++, l--, r++)
             for(int j = l; j <= r; j += 2)
                 board[i][j].setValid(true);
