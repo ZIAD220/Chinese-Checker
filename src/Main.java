@@ -34,7 +34,8 @@ public class Main {
         System.out.print("Enter destination cell location: ");
         xd = in.nextInt();
         yd = in.nextInt();
-        if (!valid_move(state.board, new Pair(xs, ys), new Pair(xd, yd))){
+        ArrayList<Pair> allMoves = valid_move(state.board, new Pair(xs, ys), new Pair(xd, yd));
+        if (!allMoves.contains(new Pair(xd, yd))){
             System.out.println("Not valid move");
             humanPlay();
             return;
@@ -227,12 +228,9 @@ public class Main {
     }
 
 
-    public static boolean valid_move(Marble[][] board, Pair from, Pair to){
-        int x = from.x, y = from.y;
-        if (x < 1 || x > 17 || y < 1 || y > 25)
-            return false;
-        if (!board[x][y].isValid || board[x][y].owner != 2)
-            return false;
+    public static ArrayList<Pair> valid_move(Marble[][] board, Pair from, Pair to){
+
+        ArrayList<Pair> allMoves = new ArrayList<>();
 
         // Checking steps.
         int dx[] = new int[] {-1, 0, 1, +1, +0, -1};
@@ -241,7 +239,7 @@ public class Main {
             int nx = from.x + dx[i];
             int ny = from.y + dy[i];
             if (canMove(board, nx, ny) && nx == to.x && ny == to.y)
-                return true;
+                allMoves.add(new Pair(nx, ny));
         }
 
         // Checking hops (using bfs).
@@ -259,16 +257,15 @@ public class Main {
                     int nx = cur.x + dx[i];
                     int ny = cur.y + dy[i];
                     if (canHop(board, cur.x, cur.y, nx, ny) && !vis.contains(new Pair(nx, ny))){
-                        if (to.x == nx && to.y == ny)
-                            return true;
                         vis.add(new Pair(nx, ny));
                         q.add(new Pair(nx, ny));
+                        allMoves.add(new Pair(nx, ny));
                     }
                 }
                 sz--;
             }
         }
-        return false;
+        return allMoves;
     }
 
     public static void init_board(Marble[][] board) {
