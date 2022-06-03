@@ -34,7 +34,7 @@ public class Main {
         System.out.print("Enter destination cell location: ");
         xd = in.nextInt();
         yd = in.nextInt();
-        if (!valid_move(state.board, state.player1, new Pair(xs, ys), new Pair(xd, yd))){
+        if (!valid_move(state.board, new Pair(xs, ys), new Pair(xd, yd))){
             System.out.println("Not valid move");
             humanPlay();
             return;
@@ -43,9 +43,15 @@ public class Main {
         state.board[xs][ys] = state.board[xd][yd];
         state.board[xd][yd] = temp;
         state.turn = !state.turn;
+        ArrayList<Pair> tmp = state.player1;
+        state.player1 = state.player2;
+        state.player2 = tmp;
     }
 
     public static void play() {
+        System.out.println("El PC");
+        //for(int i = 0; i < state.player1.size(); i++)
+          //  System.out.println(state.player1.get(i));
         if (state.turn) {
             State best = new State(state.board, state.turn);
             state.heuristic=alphaBeta(state,true, difficultyLevel, Integer.MIN_VALUE, Integer.MAX_VALUE, best);
@@ -221,8 +227,11 @@ public class Main {
     }
 
 
-    public static boolean valid_move(Marble[][] board, ArrayList<Pair> player, Pair from, Pair to){
-        if (!player.contains(from))
+    public static boolean valid_move(Marble[][] board, Pair from, Pair to){
+        int x = from.x, y = from.y;
+        if (x < 1 || x > 17 || y < 1 || y > 25)
+            return false;
+        if (!board[x][y].isValid || board[x][y].owner != 2)
             return false;
 
         // Checking steps.
