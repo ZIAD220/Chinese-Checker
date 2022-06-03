@@ -57,6 +57,7 @@ public class State {
             }
             result+="\n";
         }
+        result+="Heuristic = "+heuristic+"\n";
         return result;
     }
 

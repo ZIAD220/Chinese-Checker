@@ -19,8 +19,8 @@ public class Main {
         ArrayList<State> states=new ArrayList<>();
 //        for(int i = 0; i < p1_marbles.size(); i++)
 //            System.out.println(p1_marbles.get(i).x + " " + p1_marbles.get(i).y);
-        getChildren(initialState,states);
-//        System.out.print(states);
+        initialState.heuristic=alphaBeta(initialState,1, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        System.out.print(initialState);
     }
 
     public static byte getWinner(State state) {
@@ -37,7 +37,7 @@ public class Main {
         return 0;
     }
 
-    public static int minimax(State state, int depth, int alpha, int beta) {
+    public static int alphaBeta(State state, int depth, int alpha, int beta) {
         if (depth == 0 || getWinner(state) != 0) {
             return evalState(state);
         }
@@ -47,7 +47,7 @@ public class Main {
         if(state.turn) {
             int maxEval = Integer.MIN_VALUE;
             for(State child : children) {
-                int eval = minimax(child, depth - 1, alpha, beta);
+                int eval = alphaBeta(child, depth - 1, alpha, beta);
                 maxEval = Integer.max(maxEval, eval);
                 alpha = Integer.max(alpha, eval);
                 if (beta <= alpha) {
@@ -58,7 +58,7 @@ public class Main {
         } else {
         int minEval = Integer.MAX_VALUE;
         for(State child : children){
-            int eval = minimax(child, depth - 1, alpha, beta);
+            int eval = alphaBeta(child, depth - 1, alpha, beta);
             minEval = Integer.min(minEval, eval);
             beta = Integer.min(beta, eval);
             if(beta <= alpha) {
