@@ -145,6 +145,7 @@ public class Main {
 
     public static boolean canHop(Marble [][] board,int xs,int ys, int x, int y)
     {
+        System.out.println("AI Thinking...");
         int midX=xs+(x-xs)/2;
         int midY=ys+(y-ys)/2;
         return x > 0 && y < 26 && y > 0 && x < 18 && board[x][y].owner == 0 &&
