@@ -342,19 +342,21 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        getDifficulty();
-        System.out.println("Red is your color (r)");
+//        getDifficulty();
+//        System.out.println("Red is your color (r)");
+//        startGame();
+//        while (getWinner(state) == 0) {
+//            System.out.println(state);
+//            System.out.println();
+//            play();
+//        }
+//        System.out.println(state);
+//        System.out.println();
+//        if(getWinner(state)==1)
+//            System.out.println("Computer wins!!");
+//        else if(getWinner(state)==2)
+//            System.out.println("You win!!");
         startGame();
-        while (getWinner(state) == 0) {
-            System.out.println(state);
-            System.out.println();
-            play();
-        }
-        System.out.println(state);
-        System.out.println();
-        if(getWinner(state)==1)
-            System.out.println("Computer wins!!");
-        else if(getWinner(state)==2)
-            System.out.println("You win!!");
+        GUI.startGUI();
     }
 }
