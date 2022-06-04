@@ -31,12 +31,12 @@ public class Main {
         int xs, ys, xd, yd;
         xs = in.nextInt();
         ys = in.nextInt();
-        System.out.print("Enter destination cell location: ");
-        xd = in.nextInt();
-        yd = in.nextInt();
         ArrayList<Pair> allMoves = valid_move(state.board, new Pair(xs, ys));
         for(Pair p : allMoves)
             System.out.println(p);
+        System.out.print("Enter destination cell location: ");
+        xd = in.nextInt();
+        yd = in.nextInt();
         if (!allMoves.contains(new Pair(xd, yd))){
             System.out.println("Not valid move");
             humanPlay();
@@ -45,6 +45,8 @@ public class Main {
         Marble temp = state.board[xs][ys];
         state.board[xs][ys] = state.board[xd][yd];
         state.board[xd][yd] = temp;
+        state.player1.remove(new Pair(xs,ys));
+        state.player1.add(new Pair(xd,yd));
         state.turn = !state.turn;
         ArrayList<Pair> tmp = state.player1;
         state.player1 = state.player2;
