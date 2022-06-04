@@ -34,7 +34,9 @@ public class Main {
         System.out.print("Enter destination cell location: ");
         xd = in.nextInt();
         yd = in.nextInt();
-        ArrayList<Pair> allMoves = valid_move(state.board, new Pair(xs, ys), new Pair(xd, yd));
+        ArrayList<Pair> allMoves = valid_move(state.board, new Pair(xs, ys));
+        for(Pair p : allMoves)
+            System.out.println(p);
         if (!allMoves.contains(new Pair(xd, yd))){
             System.out.println("Not valid move");
             humanPlay();
@@ -228,8 +230,11 @@ public class Main {
     }
 
 
-    public static ArrayList<Pair> valid_move(Marble[][] board, Pair from, Pair to){
+    public static ArrayList<Pair> valid_move(Marble[][] board, Pair from){
 
+        int x = from.x, y = from.y;
+        if (x < 0 || x > 17 || y < 0 || y > 25 || board[x][y].owner != 2)
+            return new ArrayList<>();
         ArrayList<Pair> allMoves = new ArrayList<>();
 
         // Checking steps.
@@ -238,7 +243,7 @@ public class Main {
         for(int i = 0; i < 6; i++){
             int nx = from.x + dx[i];
             int ny = from.y + dy[i];
-            if (canMove(board, nx, ny) && nx == to.x && ny == to.y)
+            if (canMove(board, nx, ny))
                 allMoves.add(new Pair(nx, ny));
         }
 
