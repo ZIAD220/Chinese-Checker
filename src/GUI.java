@@ -109,6 +109,9 @@ public class GUI {
                 ArrayList<Pair> allMoves = Main.valid_move(Main.state.board, new Pair(xs, ys));
                 if (!allMoves.contains(new Pair(xd, yd))) {
                     System.out.println("Not valid move");
+                    selectedMarbleIndex = -1;
+                    targetMarbleIndex = -1;
+                    clickCout = 0;
                     return;
                 }
                 Marble temp = Main.state.board[xs][ys];
