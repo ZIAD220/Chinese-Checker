@@ -21,12 +21,6 @@ public class Main {
         state=new State(board,false); //computer turn
         state.player1=p2_marbles;
         state.player2=p1_marbles;
-//        ArrayList<State> states=new ArrayList<>();
-////        for(int i = 0; i < p1_marbles.size(); i++)
-////            System.out.println(p1_marbles.get(i).x + " " + p1_marbles.get(i).y);
-//        State best = new State(initialState.board, initialState.turn);
-//        initialState.heuristic=alphaBeta(initialState,true, difficultyLevel, Integer.MIN_VALUE, Integer.MAX_VALUE, best);
-//        System.out.print(best);
     }
 
     public static void humanPlay() {
@@ -73,6 +67,10 @@ public class Main {
                 heuristicRight++;
             }
             GUI.updateBoard();
+            int winner = getWinner(state);
+            if (winner != 0) {
+                GUI.showWinner(winner);
+            }
         }
         else {
             humanPlay();
@@ -371,7 +369,7 @@ public class Main {
 //            System.out.println("Computer wins!!");
 //        else if(getWinner(state)==2)
 //            System.out.println("You win!!");
-        startGame();
+//        startGame();
         GUI.startGUI();
     }
 }

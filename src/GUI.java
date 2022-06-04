@@ -18,9 +18,14 @@ public class GUI {
     static int targetMarbleIndex = -1;
 
     public static void startGUI() {
+        Main.startGame();
         mainFrame = new JFrame("Chinese Checkers");
         mainFrame.setSize(700, 600);
         mainFrame.setLayout(new GridLayout());
+        ///////////////////////////////////////////
+        mainFrame.getContentPane().removeAll();
+        mainFrame.repaint();
+        ///////////////////////////////////////////
         JPanel panel = new JPanel(new GridLayout(5, 1, 0, 60));
         panel.setSize(700, 600);
         JButton easyButton = new JButton("Easy");
@@ -129,14 +134,42 @@ public class GUI {
                 selectedMarbleIndex = -1;
                 targetMarbleIndex = -1;
                 clickCout = 0;
+                int winner = Main.getWinner(Main.state);
+                if (winner != 0) {
+                    showWinner(winner);
+                    return;
+                }
                 updateBoard();
                 Main.play();
             }
         }
     };
 
-    public static Color marbleColorDictionary(int i) {
-        return i>=0 && i<10 ? Color.GREEN : i>(121-11) && i<121 ? Color.RED : Color.WHITE;
+    public static void showWinner(int winner) {
+        mainFrame.getContentPane().removeAll();
+        mainFrame.repaint();
+        mainFrame.setLayout(null);
+        JLabel winnerLabel = null;
+        if (winner == 1) {
+            winnerLabel = new JLabel("You Lost.");
+        }
+        else {
+            winnerLabel = new JLabel("You Won!");
+            winnerLabel.setForeground(new Color(50, 170, 108));
+        }
+        winnerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        winnerLabel.setBounds(295, 190, 200, 50);
+        JButton playAgainButton = new JButton("Play Again ?");
+        playAgainButton.setFont(new Font("Arial", Font.ROMAN_BASELINE, 20));
+        playAgainButton.setBounds(240, 250, 200, 50);
+        playAgainButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startGame();
+            }
+        });
+        mainFrame.add(winnerLabel);
+        mainFrame.add(playAgainButton);
     }
 
     public static void initLocations() {
