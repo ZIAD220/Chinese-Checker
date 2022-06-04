@@ -13,7 +13,8 @@ If PC reached this position (This place is occupied by PC Marble), The farthest 
 to be the next farthest position and so on.
 
 Note:
-You will find screenshots and a small video for the gui attached.
+1- You will find screenshots and a small video for the gui attached.
+2- You will find the executable jar file fi folder named jar file
 
 Team:
 
