@@ -168,7 +168,8 @@ public class GUI {
         playAgainButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                startGUI();
+                Main.startGame();
+                startGame();
             }
         });
         mainFrame.add(winnerLabel);
