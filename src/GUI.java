@@ -1,7 +1,6 @@
 import org.w3c.dom.css.RGBColor;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +8,7 @@ import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 public class GUI {
-    public static JFrame mainFrame;
+    public static JFrame mainFrame = new JFrame("Chinese Checkers");
     public static JButton[] marbles;
     static int cellSize = 30;
     static int[][] locations = new int[121][2];
@@ -18,8 +17,12 @@ public class GUI {
     static int targetMarbleIndex = -1;
 
     public static void startGUI() {
-        mainFrame = new JFrame("Chinese Checkers");
+        Main.startGame();
         mainFrame.setSize(700, 600);
+        ///////////////////////////////////////////
+        mainFrame.getContentPane().removeAll();
+        mainFrame.repaint();
+        ///////////////////////////////////////////
         mainFrame.setLayout(new GridLayout());
         JPanel panel = new JPanel(new GridLayout(5, 1, 0, 60));
         panel.setSize(700, 600);
@@ -114,6 +117,11 @@ public class GUI {
                     clickCout = 0;
                     return;
                 }
+                int winner = Main.getWinner(Main.state);
+                if (winner != 0) {
+                    showWinner(winner);
+                    return;
+                }
                 Marble temp = Main.state.board[xs][ys];
                 Main.state.board[xs][ys] = Main.state.board[xd][yd];
                 Main.state.board[xd][yd] = temp;
@@ -129,14 +137,42 @@ public class GUI {
                 selectedMarbleIndex = -1;
                 targetMarbleIndex = -1;
                 clickCout = 0;
+                winner = Main.getWinner(Main.state);
+                if (winner != 0) {
+                    showWinner(winner);
+                    return;
+                }
                 updateBoard();
                 Main.play();
             }
         }
     };
 
-    public static Color marbleColorDictionary(int i) {
-        return i>=0 && i<10 ? Color.GREEN : i>(121-11) && i<121 ? Color.RED : Color.WHITE;
+    public static void showWinner(int winner) {
+        mainFrame.getContentPane().removeAll();
+        mainFrame.repaint();
+        mainFrame.setLayout(null);
+        JLabel winnerLabel = null;
+        if (winner == 1) {
+            winnerLabel = new JLabel("You Lost.");
+        }
+        else {
+            winnerLabel = new JLabel("You Won!");
+            winnerLabel.setForeground(new Color(50, 170, 108));
+        }
+        winnerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        winnerLabel.setBounds(295, 190, 200, 50);
+        JButton playAgainButton = new JButton("Play Again ?");
+        playAgainButton.setFont(new Font("Arial", Font.ROMAN_BASELINE, 20));
+        playAgainButton.setBounds(240, 250, 200, 50);
+        playAgainButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startGUI();
+            }
+        });
+        mainFrame.add(winnerLabel);
+        mainFrame.add(playAgainButton);
     }
 
     public static void initLocations() {
