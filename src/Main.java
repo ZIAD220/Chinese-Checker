@@ -60,6 +60,7 @@ public class Main {
             State best = new State(state.board, state.turn);
             state.heuristic=alphaBeta(state,true, difficultyLevel, Integer.MIN_VALUE, Integer.MAX_VALUE, best);
             state = best;
+            GUI.updateBoard();
         }
         else {
             humanPlay();

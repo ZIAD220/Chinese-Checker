@@ -64,22 +64,32 @@ public class GUI {
         mainFrame.getContentPane().removeAll();
         mainFrame.repaint();
         mainFrame.setLayout(null);
+        marbles = new JButton[121];
         initLocations();
-        drawBoard(Main.state);
+        drawBoard();
     }
 
-    public static void drawBoard(State state) {
-        marbles = new JButton[121];
+    public static void drawBoard() {
+        System.out.println("YAAAAWW");
 
         for (int i = 0; i < marbles.length; i++) {
             int[] logicalBoardLocation = mapButtonToLogicalBoar[i];
             int x = logicalBoardLocation[0], y = logicalBoardLocation[1];
             marbles[i] = new RoundButton("");
             marbles[i].setBounds(locations[i][0], locations[i][1], cellSize, cellSize);
-            marbles[i].setBackground(state.board[x][y].owner == 0 ? Color.WHITE : state.board[x][y].owner == 1 ? Color.GREEN : Color.RED);
+            marbles[i].setBackground(Main.state.board[x][y].owner == 0 ? Color.WHITE : Main.state.board[x][y].owner == 1 ? Color.GREEN : Color.RED);
             marbles[i].setActionCommand("" + i);
             marbles[i].addActionListener(actionListener);
             mainFrame.add(marbles[i]);
+        }
+    }
+
+    public static void updateBoard() {
+        System.out.println(Main.state);
+        for (int i=0; i<marbles.length; i++) {
+            int[] logicalBoardLocation = mapButtonToLogicalBoar[i];
+            int x = logicalBoardLocation[0], y = logicalBoardLocation[1];
+            marbles[i].setBackground(Main.state.board[x][y].owner == 0 ? Color.WHITE : Main.state.board[x][y].owner == 1 ? Color.GREEN : Color.RED);
         }
     }
 
@@ -111,7 +121,8 @@ public class GUI {
                 selectedMarbleIndex = -1;
                 targetMarbleIndex = -1;
                 clickCout = 0;
-                drawBoard(Main.state);
+                updateBoard();
+                Main.play();
             }
         }
     };
