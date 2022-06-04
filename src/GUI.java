@@ -1,7 +1,6 @@
 import org.w3c.dom.css.RGBColor;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +8,7 @@ import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 public class GUI {
-    public static JFrame mainFrame;
+    public static JFrame mainFrame = new JFrame("Chinese Checkers");
     public static JButton[] marbles;
     static int cellSize = 30;
     static int[][] locations = new int[121][2];
@@ -19,13 +18,12 @@ public class GUI {
 
     public static void startGUI() {
         Main.startGame();
-        mainFrame = new JFrame("Chinese Checkers");
         mainFrame.setSize(700, 600);
-        mainFrame.setLayout(new GridLayout());
         ///////////////////////////////////////////
         mainFrame.getContentPane().removeAll();
         mainFrame.repaint();
         ///////////////////////////////////////////
+        mainFrame.setLayout(new GridLayout());
         JPanel panel = new JPanel(new GridLayout(5, 1, 0, 60));
         panel.setSize(700, 600);
         JButton easyButton = new JButton("Easy");
@@ -119,6 +117,11 @@ public class GUI {
                     clickCout = 0;
                     return;
                 }
+                int winner = Main.getWinner(Main.state);
+                if (winner != 0) {
+                    showWinner(winner);
+                    return;
+                }
                 Marble temp = Main.state.board[xs][ys];
                 Main.state.board[xs][ys] = Main.state.board[xd][yd];
                 Main.state.board[xd][yd] = temp;
@@ -134,7 +137,7 @@ public class GUI {
                 selectedMarbleIndex = -1;
                 targetMarbleIndex = -1;
                 clickCout = 0;
-                int winner = Main.getWinner(Main.state);
+                winner = Main.getWinner(Main.state);
                 if (winner != 0) {
                     showWinner(winner);
                     return;
@@ -165,7 +168,7 @@ public class GUI {
         playAgainButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                startGame();
+                startGUI();
             }
         });
         mainFrame.add(winnerLabel);
