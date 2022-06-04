@@ -147,7 +147,7 @@ public class Main {
 
     public static boolean canHop(Marble [][] board,int xs,int ys, int x, int y)
     {
-        System.out.println("AI Thinking...");
+        //System.out.println("AI Thinking...");
         int midX=xs+(x-xs)/2;
         int midY=ys+(y-ys)/2;
         return x > 0 && y < 26 && y > 0 && x < 18 && board[x][y].owner == 0 &&
@@ -250,8 +250,8 @@ public class Main {
         // Checking hops (using bfs).
         dx = new int[]{0, +0, 2, +2, -2, -2};
         dy = new int[]{4, -4, 2, -2, -2, +2};
-        Set<Pair> vis = new HashSet<>(); // Visited array.
-        vis.add(from);
+        boolean vis[][] = new boolean[18][26];
+        vis[from.x][from.y] = true;
         Queue<Pair> q = new LinkedList<>();
         q.add(from);
         while(!q.isEmpty()){
@@ -261,8 +261,8 @@ public class Main {
                 for(int i = 0; i < 6; i++){
                     int nx = cur.x + dx[i];
                     int ny = cur.y + dy[i];
-                    if (canHop(board, cur.x, cur.y, nx, ny) && !vis.contains(new Pair(nx, ny))){
-                        vis.add(new Pair(nx, ny));
+                    if (canHop(board, cur.x, cur.y, nx, ny) && !vis[nx][ny]){
+                        vis[nx][ny] = true;
                         q.add(new Pair(nx, ny));
                         allMoves.add(new Pair(nx, ny));
                     }
