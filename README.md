@@ -18,4 +18,4 @@ to be the next farthest position and so on.
 **Note**:
 You will find screenshots and a small video for the gui attached.
 
-![alt text](https://github.com/Zeyad-Taher/Chinese-Checker/blob/main/Game%20screenshots%20and%20video/Mid%20board-2.png?raw=true)
+![alt text](https://github.com/Zeyad-Taher/Chinese-Checker/blob/main/Game%20screenshots%20and%20video/Mid%20board.png?raw=true)
