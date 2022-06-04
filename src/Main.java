@@ -3,8 +3,8 @@ import jdk.jshell.execution.Util;
 import java.util.*;
 
 public class Main {
-    public static final int[] bottomCenter = {17, 13};
-    public static final int[] topCenter = {1, 13};
+    public static int[] bottomCenter = {17, 13};
+    public static int[] topCenter = {1, 13};
     public static int difficultyLevel = 3;
     public static int heuristicRow = 17;
     public static int heuristicLeft = 13;
@@ -57,14 +57,25 @@ public class Main {
             State best = new State(state.board, state.turn);
             state.heuristic=alphaBeta(state,true, difficultyLevel, Integer.MIN_VALUE, Integer.MAX_VALUE, best);
             state = best;
-            boolean changeHeuristic = true;
-            for(int i = heuristicLeft; i <= heuristicRight; i++)
-                if (state.board[heuristicRow][i].owner != 1)
-                    changeHeuristic = false;
-            if (changeHeuristic){
-                bottomCenter[0]--;
-                heuristicLeft--;
-                heuristicRight++;
+            if (heuristicRow == 14){
+                if (state.board[14][12].owner == 1 && state.board[14][14].owner == 1){
+                    int nx = 14, ny = 10;
+                    if (state.board[nx][ny].owner == 0)
+                        bottomCenter = new int[]{nx, ny};
+                    else
+                        bottomCenter = new int[]{14, 16};
+                }
+            }
+            else{
+                boolean changeHeuristic = true;
+                for(int i = heuristicLeft; i <= heuristicRight; i++)
+                    if (state.board[heuristicRow][i].owner != 1)
+                        changeHeuristic = false;
+                if (changeHeuristic){
+                    bottomCenter[0]--;
+                    heuristicLeft--;
+                    heuristicRight++;
+                }
             }
             GUI.updateBoard();
             int winner = getWinner(state);
