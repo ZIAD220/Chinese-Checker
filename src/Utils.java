@@ -10,7 +10,7 @@ public class Utils {
     }
 
     public static double getHeuristic(int xs, int ys, int xd, int yd) {
-        return Math.abs(xs-xd)+Math.abs(ys-yd);
+        return (xs - xd)* (xs - xd) + (ys - yd) * (ys - yd);
     }
 
     public static State cloneState(State state) {

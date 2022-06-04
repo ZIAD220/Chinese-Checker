@@ -6,6 +6,9 @@ public class Main {
     public static final int[] bottomCenter = {17, 13};
     public static final int[] topCenter = {1, 13};
     public static int difficultyLevel = 3;
+    public static int heuristicRow = 17;
+    public static int heuristicLeft = 13;
+    public static int heuristicRight = 13;
     public static State state = null;
     public static Scanner in = new Scanner(System.in);
     public static void startGame()
@@ -60,6 +63,15 @@ public class Main {
             State best = new State(state.board, state.turn);
             state.heuristic=alphaBeta(state,true, difficultyLevel, Integer.MIN_VALUE, Integer.MAX_VALUE, best);
             state = best;
+            boolean changeHeuristic = true;
+            for(int i = heuristicLeft; i <= heuristicRight; i++)
+                if (state.board[heuristicRow][i].owner != 1)
+                    changeHeuristic = false;
+            if (changeHeuristic){
+                bottomCenter[0]--;
+                heuristicLeft--;
+                heuristicRight++;
+            }
             GUI.updateBoard();
         }
         else {
@@ -135,12 +147,14 @@ public class Main {
         }
         ArrayList<Pair> computerMarbles = state.turn ? state.player1 : state.player2;
         ArrayList<Pair> humanMarbles = !state.turn ? state.player1 : state.player2;
-        double computerDistance = 0, humanDistance = 0;
+        int computerDistance = 0, humanDistance = 0;
         for (int i=0; i<computerMarbles.size(); i++) {
-            computerDistance += Utils.getHeuristic(computerMarbles.get(i).x, computerMarbles.get(i).y, bottomCenter[0], bottomCenter[1]);
+            int xComp = computerMarbles.get(i).x;
+            int yComp = computerMarbles.get(i).y;
+            computerDistance += Utils.getHeuristic(xComp, yComp, bottomCenter[0], bottomCenter[1]);
             humanDistance += Utils.getHeuristic(humanMarbles.get(i).x, humanMarbles.get(i).y, topCenter[0], topCenter[1]);
         }
-        return (int)Math.round(humanDistance - computerDistance);
+        return (humanDistance - computerDistance);
     }
 
     public static boolean canMove(Marble [][] board, int x, int y)
