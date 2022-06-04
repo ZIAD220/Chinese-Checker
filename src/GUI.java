@@ -106,11 +106,16 @@ public class GUI {
                 int ys = mapButtonToLogicalBoar[selectedMarbleIndex][1];
                 int xd = mapButtonToLogicalBoar[targetMarbleIndex][0];
                 int yd = mapButtonToLogicalBoar[targetMarbleIndex][1];
-//                ArrayList<Pair> allMoves = Main.valid_move(Main.state.board, new Pair(xs, ys), new Pair(xd, yd));
-
+                ArrayList<Pair> allMoves = Main.valid_move(Main.state.board, new Pair(xs, ys));
+                if (!allMoves.contains(new Pair(xd, yd))) {
+                    System.out.println("Not valid move");
+                    return;
+                }
                 Marble temp = Main.state.board[xs][ys];
                 Main.state.board[xs][ys] = Main.state.board[xd][yd];
                 Main.state.board[xd][yd] = temp;
+                Main.state.player1.remove(new Pair(xs,ys));
+                Main.state.player1.add(new Pair(xd,yd));
                 Main.state.turn = !Main.state.turn;
                 ArrayList<Pair> tmp = Main.state.player1;
                 Main.state.player1 = Main.state.player2;
