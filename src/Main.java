@@ -3,8 +3,8 @@ import jdk.jshell.execution.Util;
 import java.util.*;
 
 public class Main {
-    public static final int[] bottomCenter = {15, 13};
-    public static final int[] topCenter = {3, 13};
+    public static final int[] bottomCenter = {17, 13};
+    public static final int[] topCenter = {1, 13};
     public static int difficultyLevel = 3;
     public static State state = null;
     public static Scanner in = new Scanner(System.in);
@@ -136,8 +136,8 @@ public class Main {
         ArrayList<Pair> humanMarbles = !state.turn ? state.player1 : state.player2;
         double computerDistance = 0, humanDistance = 0;
         for (int i=0; i<computerMarbles.size(); i++) {
-            computerDistance += Utils.getEucDistance(computerMarbles.get(i).x, computerMarbles.get(i).y, bottomCenter[0], bottomCenter[1]);
-            humanDistance += Utils.getEucDistance(humanMarbles.get(i).x, humanMarbles.get(i).y, topCenter[0], topCenter[1]);
+            computerDistance += Utils.getHeuristic(computerMarbles.get(i).x, computerMarbles.get(i).y, bottomCenter[0], bottomCenter[1]);
+            humanDistance += Utils.getHeuristic(humanMarbles.get(i).x, humanMarbles.get(i).y, topCenter[0], topCenter[1]);
         }
         return (int)Math.round(humanDistance - computerDistance);
     }

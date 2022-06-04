@@ -9,8 +9,8 @@ public class Utils {
         return result;
     }
 
-    public static double getEucDistance(int xs, int ys, int xd, int yd) {
-        return Math.sqrt(Math.pow(xd - xs, 2) + Math.pow(yd-ys, 2));
+    public static double getHeuristic(int xs, int ys, int xd, int yd) {
+        return Math.abs(xs-xd)+Math.abs(ys-yd);
     }
 
     public static State cloneState(State state) {
