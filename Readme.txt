@@ -15,6 +15,3 @@ to be the next farthest position and so on.
 Note:
 1- You will find screenshots and a small video for the gui attached.
 2- You will find the executable jar file fi folder named jar file
-
-## Images
-![Game Image 1](https://github.com/Ammarr5/Chinese-Checker/blob/main/Game%20screenshots%20and%20video/Mid%20board.png)
