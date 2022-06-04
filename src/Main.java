@@ -328,7 +328,7 @@ public class Main {
             difficultyLevel=5;
         else {
             System.out.println("Enter proper value (1 - 2 - 3).");
-            getDifficulty();
+            return getDifficulty();
         }
         return difficultyLevel;
     }
